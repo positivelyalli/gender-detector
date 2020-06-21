@@ -32,7 +32,7 @@
   <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <a class="navbar-brand" href="#">Gender Detector</a>
+            <a class="navbar-brand" href="https://github.com/positivelyalli/gender-detector">Gender Detector</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,7 +40,7 @@
             <div class="collapse navbar-collapse" id="navbarsExample03">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">TBD<span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="#">Github<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Visualizations</a>
@@ -64,15 +64,16 @@
             <p>
             <form action="" method="post">
               <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <input type="submit">
+                <input type="text" class="form-control" name = 'gendered' placeholder="Write Something" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <input type="submit" value="predict gender">
                 </div>
-                <input type="text" class="form-control" name = 'gendered' id="basic-url" aria-describedby="basic-addon3">
-                </div>
+              </div>
             </form>
-            <label for="basic-url">Let Us Guess Your Gender</label>
             {% if message %}
-              <p>{{ message }}</p>
+            <p>
+              <h2 class = "predict_g"> It's a {{ message }} </h2>
+            </p>
             {% endif %}
           </div>
         </section>
@@ -84,20 +85,28 @@
             <div class="blog-post">
               <h2 class="blog-post-title">Gender Detection & Prediction</h2>
               <p class="blog-post-meta">June 20, 2020 by <a href="#">Alli Kruger & Sowmya Srinivasan</a></p>
-  
               <p>Is there a bias towards a certain gender in movie scripts? </br>The purpose of this project is to see if a machine learning algorithm can predict a character's gender from the words spoken by the character in the movie script.</p>
+              <img src="resources/images/allwordcloud.png" class="img-fluid" alt="Responsive image" >
               <h2>Gender Bias</h2>
-              <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <p>There is a bias in scripts towards male characters. There are almost twice as many male characters than female characters. However, there is not as big of a bias as we originally thought and we adjusted the training dataset so that there were an equal number of lines for female and male characters.</p>
+              <img src="resources/images/charpergender.png" class="img-fluid" alt="Responsive image" style = "max-width: 50%; max-height: 50%;">
+              <p>The male characters had 2.3 times more lines than a female character. A female character got to speak 2.3 times less than the male characters. Given that women are a little more half the population movie scripts are not representing reality accurately. </p>
+              <img src="resources/images/linespergender.png" class="img-fluid" alt="Responsive image" style = "max-width: 50%; max-height: 50%;">
               
-              <h3>Pie Chart or Histogram Character Gender</h3>
-              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-              <img src="resources/gender_breakdown.png" class="img-fluid" alt="Responsive image">
+              <h3>Words spoken by each Gender</h3>
+              <p>The words spoken by each gender were not very different. The first round of word clouds contained mostly names and did not show anything of interest. This was improved by including character names in the stopwords that were removed later.</p>
+              <img src="resources/images/femalewordcloud.png" class="img-fluid" alt="Female Word Cloud" style = "max-width: 70%; max-height: 70%;">
+              <p>The words that female characters say shows …TBD…</p>
+              <img src="resources/images/malewordcloud.png" class="img-fluid" alt="Female Word Cloud" style = "max-width: 70%; max-height: 70%;">
+              <p>The words that male characters say shows …TBD…</p>
+              <h4>Word Cloud Process</h4>
+              <p>The code to create the word clouds is below</p>
               <pre><code>Example code block</code></pre>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
+              <p>Take a list of words as strings and pass if through wordcloud with your specifications.</p>
               
               <h3>Bubble Chart Word Frequency for each Gender</h3>
               <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-              <img src="resources/scatterlinepercharacterlegend.PNG" class="img-fluid" alt="Responsive image">
+              <img src="resources/images/scatterlinepercharacterlegend.PNG" class="img-fluid" alt="Responsive image">
               <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
               <ul>
                 <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
@@ -114,7 +123,7 @@
             </div><!-- /.blog-post -->
   
             <div class="blog-post">
-              <h2 class="blog-post-title">Details for Model</h2>
+              <h2 class="blog-post-title">Multinomial Naive Bayes Model</h2>
   
               <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
               <blockquote>
