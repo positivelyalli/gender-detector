@@ -62,18 +62,18 @@
             <h1 class="jumbo-text">Movie Character Gender Detection</h1>
             <p class="lead my-3">Predicting the gender of a movie character with machine learning using utterances in scripts.</p>
             <p>
-            
-            <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">write something</span>
-            </div>
-            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-            </div>
+            <form action="" method="post">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <input type="submit">
+                </div>
+                <input type="text" class="form-control" name = 'gendered' id="basic-url" aria-describedby="basic-addon3">
+                </div>
+            </form>
             <label for="basic-url">Let Us Guess Your Gender</label>
-            <p>
-              <!-- <a href="#" class="btn btn-primary my-2">Main call to action</a>
-              <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
-            </p>
+            {% if message %}
+              <p>{{ message }}</p>
+            {% endif %}
           </div>
         </section>
         <div class="col-md-12 blog-main">
