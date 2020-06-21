@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <!-- <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+  
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+
+        .jumbotron {
+            background-color: rgb(185, 160, 185);
+        }
+      </style> -->
+  </head>
+  <body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <a class="navbar-brand" href="https://github.com/positivelyalli/gender-detector">Gender Detector</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+      
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Github<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Visualizations</a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown03">
+                    <a class="dropdown-item" href="#">Character Gender Pie Chart</a>
+                    <a class="dropdown-item" href="#">Word Frequency by Gender</a>
+                    <a class="dropdown-item" href="#">Lines per Gender</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+      
+    </header>
+    <main role="main">
+
+        <section class="jumbotron text-center p-3 p-md-5 text-white rounded bg">
+          <div class="container">
+            <h1 class="jumbo-text">Movie Character Gender Detection</h1>
+            <p class="lead my-3">Predicting the gender of a movie character with machine learning using utterances in scripts.</p>
+            <p>
+            <form action="" method="post">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" name = 'gendered' placeholder="Write Something" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <input type="submit" value="predict gender">
+                </div>
+              </div>
+            </form>
+            {% if message %}
+            <p>
+              <h2 class = "predict_g"> It's a {{ message }} </h2>
+            </p>
+            {% endif %}
+          </div>
+        </section>
+        <div class="col-md-12 blog-main">
+            <!-- <h3 class="pb-3 mb-4 font-italic border-bottom">
+              Machine Learning
+            </h3> -->
+  
+            <div class="blog-post">
+              <h2 class="blog-post-title">Gender Detection & Prediction</h2>
+              <p class="blog-post-meta">June 20, 2020 by <a href="#">Alli Kruger & Sowmya Srinivasan</a></p>
+              <p>Is there a bias towards a certain gender in movie scripts? </br>The purpose of this project is to see if a machine learning algorithm can predict a character's gender from the words spoken by the character in the movie script.</p>
+              <img src="resources/images/allwordcloud.png" class="img-fluid" alt="Responsive image" >
+              <h2>Gender Bias</h2>
+              <p>There is a bias in scripts towards male characters. There are almost twice as many male characters than female characters. However, there is not as big of a bias as we originally thought and we adjusted the training dataset so that there were an equal number of lines for female and male characters.</p>
+              <img src="resources/images/charpergender.png" class="img-fluid" alt="Responsive image" style = "max-width: 50%; max-height: 50%;">
+              <p>The male characters had 2.3 times more lines than a female character. A female character got to speak 2.3 times less than the male characters. Given that women are a little more half the population movie scripts are not representing reality accurately. </p>
+              <img src="resources/images/linespergender.png" class="img-fluid" alt="Responsive image" style = "max-width: 50%; max-height: 50%;">
+              
+              <h3>Words spoken by each Gender</h3>
+              <p>The words spoken by each gender were not very different. The first round of word clouds contained mostly names and did not show anything of interest. This was improved by including character names in the stopwords that were removed later.</p>
+              <img src="resources/images/femalewordcloud.png" class="img-fluid" alt="Female Word Cloud" style = "max-width: 70%; max-height: 70%;">
+              <p>The words that female characters say shows …TBD…</p>
+              <img src="resources/images/malewordcloud.png" class="img-fluid" alt="Female Word Cloud" style = "max-width: 70%; max-height: 70%;">
+              <p>The words that male characters say shows …TBD…</p>
+              <h4>Word Cloud Process</h4>
+              <p>The code to create the word clouds is below</p>
+              <pre><code>Example code block</code></pre>
+              <p>Take a list of words as strings and pass if through wordcloud with your specifications.</p>
+              
+              <h3>Bubble Chart Word Frequency for each Gender</h3>
+              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+              <img src="resources/images/scatterlinepercharacterlegend.PNG" class="img-fluid" alt="Responsive image">
+              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+              <ul>
+                <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
+                <li>Donec id elit non mi porta gravida at eget metus.</li>
+                <li>Nulla vitae elit libero, a pharetra augue.</li>
+              </ul>
+              <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
+              <ol>
+                <li>Vestibulum id ligula porta felis euismod semper.</li>
+                <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
+                <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
+              </ol>
+              <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
+            </div><!-- /.blog-post -->
+  
+            <div class="blog-post">
+              <h2 class="blog-post-title">Multinomial Naive Bayes Model</h2>
+  
+              <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
+              <blockquote>
+                <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              </blockquote>
+              <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+              <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+            </div><!-- /.blog-post -->
+  
+            <div class="blog-post">
+              <h2 class="blog-post-title">New feature</h2>
+  
+              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+              <ul>
+                <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
+                <li>Donec id elit non mi porta gravida at eget metus.</li>
+                <li>Nulla vitae elit libero, a pharetra augue.</li>
+              </ul>
+              <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+              <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
+            </div><!-- /.blog-post -->
+
+  
+          </div>
+      </main>
+      
+      <footer class="text-muted">
+        <div class="container">
+          <p class="float-right">
+            <a href="#">Back to top</a>
+          </p>
+          <p>Created June 2020 for DataCamp UC Berkeley Extension using &copy; Bootstrap</p>
+        
+        </div>
+      </footer>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+            <script>window.jQuery || document.write('<script src="/docs/4.5/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script></body>
+      </html>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
