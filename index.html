@@ -13,7 +13,7 @@
   <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <a class="navbar-brand" href="#">Gender Detector</a>
+            <a class="navbar-brand" href="index.html">Gender Detector</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -46,15 +46,19 @@
             <h1 class="jumbo-text">Movie Character Gender Detection</h1>
             <p class="lead my-3">Predicting the gender of a movie character with machine learning using utterances in scripts.</p>
             <p>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Write Something" aria-label="Recipient's username" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="input btn" type="button">Predict Gender</button>
+            <form action="" method="post">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Write Something" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <input class="input btn" type = "submit" value="Predict Gender">
+                </div>
               </div>
-            </div>
+            </form>
+            {% if message %}
             <p>
-              <h2 class = "predict_g"> It's a Girl! </h2>
+              <h2 class = "predict_g"> It's a {{ message}}! </h2>
             </p>
+            {% endif %}
           </div>
         </section>
         <div class="col-md-12 blog-main">
