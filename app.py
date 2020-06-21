@@ -9,9 +9,9 @@ def login():
         text = request.form.get('gendered') 
         gender = predict_gender.predict_gender(text)
         if gender == 'Female':
-            message = "youre a woman"
+            message = "Girl"
         else:
-            message = "youre a man"
+            message = "Boy"
  
     return render_template('index.html', message=message)
 #...
