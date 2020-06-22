@@ -69,19 +69,142 @@
             <div class="blog-post">
               <h2 class="blog-post-title">Gender Detection & Prediction</h2>
               <p class="blog-post-meta">June 20, 2020 by <a href="#">Alli Kruger & Sowmya Srinivasan</a></p>
-              <p>Is there a bias towards a certain gender in movie scripts? </br>The purpose of this project is to see if a machine learning algorithm can predict a character's gender from the words spoken by the character in the movie script.</p>
-              <img src="static/images/allwordcloud.png" class="img-fluid" alt="Responsive image" >
+              <p>The purpose of this project is to see if a machine learning algorithm can predict a 
+                character's gender from the words spoken by the character in the movie scripts from the
+                <a href="https://www.kaggle.com/Cornell-University/movie-dialog-corpus">Kaggle movie script corpus dataset</a>. To learnmore about the process to 
+                create the prediction model <a href="http://127.0.0.1:5000/data_cleaning.html">go to the Data Cleaning & Modeling page</a>.  
+              </p>
+              <!-- <img src="static/images/allwordcloud.png" class="img-fluid" alt="Responsive image" style = "max-width: 85%; max-height: 85%;" > -->
+              <p></br></p>
               <h2>Gender Bias</h2>
-              <p>There is a bias in scripts towards male characters. There are almost twice as many male characters than female characters. However, there is not as big of a bias as we originally thought and we adjusted the training dataset so that there were an equal number of lines for female and male characters.</p>
+              <p>But, is there a bias towards a certain gender in the movie scripts?</p>
               <div id="charbar"></div>
-              <p>The male characters had 2.3 times more lines than a female character. A female character got to speak 2.3 times less than the male characters. Given that women are a little more than half the population movie scripts are not representing reality accurately. </p>
+              <p>    Yes, there are almost twice as many male characters than female characters. However,
+                there is not as big of a bias as we originally thought. Non-gendered characters outnumbered 
+                female characters as well.In order to normalize the data, the   
+                training dataset was adjusted so that the number of  lines for female and male
+                characters were equal. The kaggle movie corpus dataset was also adjusted by removing 
+                the non-gendered characters and lines before handing it off to the machine learning model.
+              </p>
               <div id="linesbar"></div>
+              <p>The male characters had 2.3 times more lines than a female character. A female character got to speak 
+                2.3 times less than the male characters. Given that women are a little more than half the population movie 
+                scripts are not representing reality accurately. One potential way to fix this difference is to make most 
+                of the non-gendered characters in a movie, such as extras, predominantly female.</p>
+              <p></br></p>
               <h3>Words spoken by each Gender</h3>
-              <p>The words spoken by each gender were not very different. The first round of word clouds contained mostly names and did not show anything of interest. This was improved by including character names in the stopwords that were removed later.</p>
-              <img src="static/images/femalecloud.png" class="img-fluid" alt="Female Word Cloud" style = "max-width: 70%; max-height: 70%;">
-              <p>The words that female characters say </p>
-              <img src="static/images/malecloud.png" class="img-fluid" alt="Female Word Cloud" style = "max-width: 70%; max-height: 70%;">
-              <p>The words that male characters say shows …TBD…</p>
+              <p></br></p>
+              <p>The words spoken by each gender were different but not as much as one would think. The first round of word clouds contained mostly names and did not show anything of interest. Removing character names with stopwords resolved the issue.</p>
+              <h5>Female Characters</h5>
+              <p></br></p>
+              <img src="static/images/femalecloud.png" class="img-fluid" alt="Female Word Cloud" style = "max-width: 85%; max-height: 85%;">
+              <p></br></p>
+              <p>Female characters shared a lot of the most frequently used words with male characters. The largest differences are “think”, “want”, “really”, and “oh.”  Female characters used “know”, “think”, “want” and “oh” more often than male characters. These words are predictors for gender in a movie script. This could be due to the more indirect or passive sentence structure that female characters use in the dataset.
+              </p>
+              <h5>Male Characters</h5>
+              <p></br></p>
+              <img src="static/images/malecloud.png" class="img-fluid" alt="Female Word Cloud" style = "max-width: 85%; max-height: 85%;">
+              <p></br></p>
+              <p>Male characters used more direct sentence structures and more profanity when speaking dialogue. The word cloud shows some of the obscenities that were used. The words “got”, “one”, “look” and “say” are used more often by male characters making them good predictors for male gender.
+              </p>
+              <h3>Word Cloud Process</h3>
+              <p></br></p>
+              <p>
+                <h6>Load data into a jupyter notebook.</h6>
+                <pre><code> df = pf.read_csv(‘csv_name’)</code></pre>
+                <h6>Drop any null values in the dataframe.</h6>
+                <pre><code> df = df.dropna()</code></pre>
+                <h6>Set Stopwords.</h6>
+                <pre><code> import nltk
+                !pip install --upgrade nltk
+                nltk.download('stopwords')
+                from nltk.corpus import stopwords
+                print(stopwords.words('english'))
+                </code></pre>
+                Download the stopwords from the nltk library for the english language. This library is a natural language processing toolkit developed for linguists, data scientists and computer programmers.
+                </br>
+                </br>
+                <h6>Add names to the stopwords</h6>
+                <pre><code>
+                sw = stopwords.words('english')
+                names = character_df['name']
+                names = names.to_list()
+                sw.extend(names)
+                </code></pre>
+                Add specialized words into the stopwords list if necessary by extending the list from nltk
+                </br>
+                </br>
+                <h6>Import dependencies for WordCloud</h6>
+                <pre><code>
+                nltk.download('punkt')
+                import nltk 
+                nltk.download('wordnet')
+                from nltk.corpus import wordnet
+                </code></pre>
+                This downloads  and imports the packages to run wordcloud.
+                </br>
+                </br>
+                <h6>Take out stopwords and tokenize text</h6>
+                <pre><code>
+                import time
+                f_dialogue_list = []
+                
+                count = 1
+                start_time =  pd.Timestamp.now(tz='US/Pacific')
+                time_now = start_time
+                delta_time = 0
+                progress = 0
+                rate = 0
+                eta = 0
+                total_units = len(female_df.dialogue)
+                time_end = 0
+                for dialogue in female_df.dialogue:
+                    time_now =  pd.Timestamp.now(tz='US/Pacific')
+                    delta_time = time_now - start_time
+                    rate = delta_time / count
+                    remaining = total_units - count
+                    eta = remaining * rate
+                    time_end = (start_time + eta) #to timestamp string....
+                    if count %10000 == 0:
+                      print(str(pd.Timestamp(time_end)))
+                      print(count)
+                    if count == 10:
+                      print(str(pd.Timestamp(time_end)))
+                      print(count)
+                    dialogue = nltk.word_tokenize(dialogue)
+                    dialogue = [ word for word in dialogue if not word in set(sw)]
+                    dialogue = " ".join(dialogue)
+                    f_dialogue_list.append(dialogue)
+                    count = count + 1
+                    
+                    
+                f_dialogue_list
+                </code></pre>
+                A for loop runs over the text in a dataframe and tokenizes the text into a list of strings first. Then takes out stopwords from the list of words. This contains an ETA function telling you when the script should end.
+                </br>
+                </br>
+                <h6>Create the wordcloud from the text_list</h6>
+                <pre><code>
+                from wordcloud import WordCloud, STOPWORDS
+                import matplotlib.pyplot as plt
+                text = f_dialogue_list
+                wordcloudf = WordCloud(
+                    width = 3000,
+                    height = 2000,
+                    background_color = 'black',
+                    stopwords = STOPWORDS).generate(str(text))
+                fig = plt.figure(
+                    figsize = (40, 30),
+                    facecolor = 'k',
+                    edgecolor = 'k')
+                plt.imshow(wordcloud, interpolation = 'bilinear')
+                plt.axis('off')
+                plt.tight_layout(pad=0)
+                plt.show()
+                </code></pre>
+                Wordcloud takes a list of strings and makes a wordcloud with the largest words being the ones most frequently used in the list.
+              </p>
+              <h5>Learn more about creating the prediction model <a href="http://127.0.0.1:5000/data_cleaning.html">here</a>.</h5>
           </div>
       </main>
       
