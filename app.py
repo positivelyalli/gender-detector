@@ -6,7 +6,8 @@ app = Flask(__name__)
 def login():
     message = ''
     if request.method == 'POST':
-        text = request.form.get('gendered') 
+        text = request.form.get('gendered')
+        print('line 9') 
         gender = predict_gender.predict_gender(text)
         if gender == 'Female':
             message = "Girl"
@@ -15,5 +16,11 @@ def login():
  
     return render_template('index.html', message=message)
 #...
+@app.route('/data_cleaning.html')
+def source():
+    return render_template('data_cleaning.html')
+
 if __name__ == '__main__':
    app.run(debug = True)
+
+
