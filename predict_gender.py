@@ -19,7 +19,7 @@ def split(x):
 
 
 def init():
-    stemmed = pd.read_csv('stemmed.csv')
+    stemmed = pd.read_csv('data/final.csv')
     stemmed = stemmed.fillna('')
     
     dialogue = stemmed.dialogue.to_list()
@@ -37,13 +37,14 @@ def init():
 
 
 def predict_gender(t):
+    print('line 40' + t)
     nb, vecf = init()
 
-    character = pd.read_csv('fixed_characters.csv')
+    character = pd.read_csv('data/fixed_characters.csv')
     sw = stopwords.words('english')
     names = character.name.str.lower().to_list()
     sw.extend(names)
-    
+    print(t)
     tknzr = TweetTokenizer()
     text_tokens = tknzr.tokenize(t)
     text_tokens = [split(x) for x in text_tokens]
