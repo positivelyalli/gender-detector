@@ -107,15 +107,104 @@
               <p></br></p>
               <p>Male characters used more direct sentence structures and more profanity when speaking dialogue. The word cloud shows some of the obscenities that were used. The words “got”, “one”, “look” and “say” are used more often by male characters making them good predictors for male gender.
               </p>
-              <!-- <h4>Word Cloud Process</h4>
+              <h3>Word Cloud Process</h3>
               <p></br></p>
               <p>
-
-              </p> -->
-              <p>
-              </br>
-              </br>
-              Learn more about creating the prediction model <a href="http://127.0.0.1:5000/data_cleaning.html">here</a>.</p>
+                <h6>Load data into a jupyter notebook.</h6>
+                <pre><code> df = pf.read_csv(‘csv_name’)</code></pre>
+                <h6>Drop any null values in the dataframe.</h6>
+                <pre><code> df = df.dropna()</code></pre>
+                <h6>Set Stopwords.</h6>
+                <pre><code> import nltk
+                !pip install --upgrade nltk
+                nltk.download('stopwords')
+                from nltk.corpus import stopwords
+                print(stopwords.words('english'))
+                </code></pre>
+                Download the stopwords from the nltk library for the english language. This library is a natural language processing toolkit developed for linguists, data scientists and computer programmers.
+                </br>
+                </br>
+                <h6>Add names to the stopwords</h6>
+                <pre><code>
+                sw = stopwords.words('english')
+                names = character_df['name']
+                names = names.to_list()
+                sw.extend(names)
+                </code></pre>
+                Add specialized words into the stopwords list if necessary by extending the list from nltk
+                </br>
+                </br>
+                <h6>Import dependencies for WordCloud</h6>
+                <pre><code>
+                nltk.download('punkt')
+                import nltk 
+                nltk.download('wordnet')
+                from nltk.corpus import wordnet
+                </code></pre>
+                This downloads  and imports the packages to run wordcloud.
+                </br>
+                </br>
+                <h6>Take out stopwords and tokenize text</h6>
+                <pre><code>
+                import time
+                f_dialogue_list = []
+                
+                count = 1
+                start_time =  pd.Timestamp.now(tz='US/Pacific')
+                time_now = start_time
+                delta_time = 0
+                progress = 0
+                rate = 0
+                eta = 0
+                total_units = len(female_df.dialogue)
+                time_end = 0
+                for dialogue in female_df.dialogue:
+                    time_now =  pd.Timestamp.now(tz='US/Pacific')
+                    delta_time = time_now - start_time
+                    rate = delta_time / count
+                    remaining = total_units - count
+                    eta = remaining * rate
+                    time_end = (start_time + eta) #to timestamp string....
+                    if count %10000 == 0:
+                      print(str(pd.Timestamp(time_end)))
+                      print(count)
+                    if count == 10:
+                      print(str(pd.Timestamp(time_end)))
+                      print(count)
+                    dialogue = nltk.word_tokenize(dialogue)
+                    dialogue = [ word for word in dialogue if not word in set(sw)]
+                    dialogue = " ".join(dialogue)
+                    f_dialogue_list.append(dialogue)
+                    count = count + 1
+                    
+                    
+                f_dialogue_list
+                </code></pre>
+                A for loop runs over the text in a dataframe and tokenizes the text into a list of strings first. Then takes out stopwords from the list of words. This contains an ETA function telling you when the script should end.
+                </br>
+                </br>
+                <h6>Create the wordcloud from the text_list</h6>
+                <pre><code>
+                from wordcloud import WordCloud, STOPWORDS
+                import matplotlib.pyplot as plt
+                text = f_dialogue_list
+                wordcloudf = WordCloud(
+                    width = 3000,
+                    height = 2000,
+                    background_color = 'black',
+                    stopwords = STOPWORDS).generate(str(text))
+                fig = plt.figure(
+                    figsize = (40, 30),
+                    facecolor = 'k',
+                    edgecolor = 'k')
+                plt.imshow(wordcloud, interpolation = 'bilinear')
+                plt.axis('off')
+                plt.tight_layout(pad=0)
+                plt.show()
+                </code></pre>
+                Wordcloud takes a list of strings and makes a wordcloud with the largest words being the ones most frequently used in the list.
+              </p>
+              <h5>Learn more about creating the prediction model <a href="http://127.0.0.1:5000/data_cleaning.html">here</a>.</h5>
           </div>
       </main>
       
