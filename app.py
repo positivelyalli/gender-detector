@@ -5,6 +5,7 @@ app = Flask(__name__)
 @app.route('/', methods=['post', 'get'])
 def login():
     message = ''
+    text = ''
     if request.method == 'POST':
         text = request.form.get('gendered')
         print('line 9') 
@@ -14,7 +15,7 @@ def login():
         else:
             message = "Boy"
  
-    return render_template('index.html', message=message)
+    return render_template('index.html', message=message, txt=text)
 #...
 @app.route('/data_cleaning.html')
 def source():
