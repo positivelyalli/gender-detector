@@ -12,7 +12,8 @@ movie_lines.tsv
 NationalNames.csv
 
 
-
+.DS_store
+.DS_Store
 .ipynb_checkpoints
 =======
 __pycache__/*

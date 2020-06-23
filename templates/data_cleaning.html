@@ -55,47 +55,195 @@
             <div class="blog-post">
               <h2 class="blog-post-title">Gender Detection & Prediction</h2>
               <p class="blog-post-meta">June 20, 2020 by <a href="#">Alli Kruger & Sowmya Srinivasan</a></p>
-              <p>Is there a bias towards a certain gender in movie scripts? </br>The purpose of this project is to see if a machine learning algorithm can predict a character's gender from the words spoken by the character in the movie script.</p>              
-              <h3>Creating the Machine Learning Model</h3>
-              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-              <img src="static/images/confusionmatrix.PNG" class="img-fluid" alt="Responsive image">
-              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-              <ul>
-                <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-                <li>Donec id elit non mi porta gravida at eget metus.</li>
-                <li>Nulla vitae elit libero, a pharetra augue.</li>
-              </ul>
-              <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
-              <ol>
-                <li>Vestibulum id ligula porta felis euismod semper.</li>
-                <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li>
-                <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li>
-              </ol>
-              <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p>
+              <p>The purpose of this project is to see if a machine learning algorithm can predict a character's gender from the words spoken by the character in the movie script.</p>              
+              <h3>Cleaning the data</h3>
+              <p>The data used in this project come from the
+                <a href="https://www.kaggle.com/Cornell-University/movie-dialog-corpus">Movie Dialog Corpus</a>
+                dataset posted onto Kaggle by Cornell University. The tables used for this project were the movie_characters_metadata
+                and movie_lines tsvs. The fields included in these tables are:
+                <ol>
+                  <li>movie_characters_metadata
+                    <ul>
+                      <li>Character ID</li>
+                      <li>Character Name</li>
+                      <li>Movie ID</li>
+                      <li>Movie Title</li>
+                      <li>Gender</li>
+                      <li>Position in Credits</li>
+                    </ul>
+                  </li>
+                  <li>movie_lines
+                    <ul>
+                      <li>Line ID</li>
+                      <li>Character ID</li>
+                      <li>Movie ID</li>
+                      <li>Character Name</li>
+                      <li>Text of the Utterance</li>
+                    </ul>
+                  </li>
+                </ol>
+              </p> 
+              
+              <p>The fields we needed for the training dataset included the Text of the Utterance from movie_lines
+                and the Gender from the movie_characters_metadata. One issue we ran into early on was that approximately
+                60% of the character genders were marked as unknown. Although we could have used the existing data, we felt that 
+                we may be missing out on a lot of information if we skipped over all of those characters. 
+              </p>
+              <p>
+                In order to overcome this, 
+                we also downloaded the National Names csv from US Baby Names dataset on Kaggle. Using this dataset, we 
+                attempted to fill in a lot of the unknown genders based on the corresponding names in the National Names 
+                dataset. To do this, we performed a groupby and matched the names with the gender that had the maximum count overall
+                and filled in the gender column in the movie_characters_metadata table. In addition to this, we also 
+                saw that there were many extra characters with names that were a description of who they were in the movie,
+                so in order to try and cover those characters we assigned gender based on specific keywords in their names 
+                (e.g. 'Old Woman'). The function below is what we used to fill in gender, and it filled in approximately 66% of the 
+                unfilled genders.
+              </p>
+              <pre><code>
+                def assign_namesg(row):
+                    women = female_names.name.to_list() 
+                    men = male_names.name.to_list()
+                    gendered_f = ['MRS', 'LADY', 'MS ', 'MISS', 'WOMAN', 'GIRL', 'CHICK', 'MADAM', 'MADAME', 'SENIORITA', 'SENORA',
+                            'MISTRESS', 'FEMALE', 'MOTHER', 'MOM', 'GRANDDAUGHTER', 'NIECE', 'AUNT', 'SISTER', 'DAUGHTER',
+                            'BROAD', 'DUCHESS', 'DAME', 'GENTLEWOMAN', 'QUEEN', 'CRONE', ' HAG', 'GAL', 'MAMA', 'MOMMA', 'BITCH',
+                            'MISSUS', 'EMPRESS', 'BARONESS', 'NOBLEWOMAN', 'GRANNY', 'NONNA', 'NUN', 'MRS.','MS.', 'FRAU','WIFE',
+                            'WIFEY', 'BRIDE']
+                    gendered_m = ['MR ', 'SENOR', 'MAN', 'GUY', 'DUDE', 'MISTER', 'BOY', 'MALE', 'BROTHER', 'HUSBAND', 'GENTLEMAN',
+                          'FATHER', 'DAD', 'GRANDSON', 'GRANDFATHER', 'NEPHEW', 'UNCLE', 'BARON', 'KNIGHT', 'EMPEROR', 'NOBLEMAN',
+                          'DADDY', 'PAPI', 'PAPA', 'GRANDPA', 'GRAMPS', 'CHAP', 'LAD', 'GEEZER', 'BLOKE', 'SIR', 'MR.', 'HUBBY','GROOM',
+                          'HERR']
+                    gender = row['gender']
+                    name = row['name']
+                    try:
+                      if row['gender'] == '?':
+                          for x in men:
+                              if x == row['name']:
+                                  gender = 'M'
+                          for x in women:
+                              if x == row['name']:
+                                  gender = 'F'                               
+                      if row['gender'] == '?':                          
+                          for x in gendered_m:
+                              if x in row['name']:
+                                  gender = 'M'
+                          for x in gendered_f:
+                              if x in row['name']:
+                                  gender = 'F'
+                    except:
+                        print('Something went wrong.')    
+                return gender
+              </code></pre>
+              
+              
+              <p>In addition to the movie_characters_metadata table, the movei_lines table also needed a bit of work. We found that in the 
+                lines dataset some of the row values were put into one string separated by '\t' and fell under the lineID row. Later on we 
+                found that the movie_characters_metadata table had a few rows like this as well. In order to fix this, we used the following 
+                function:
+              </p>
+              <pre><code>
+                def separate_rows(row):
+                  lineId = row['lineId']
+                  chId = row['chId']
+                  mId = row['mId']
+                  chName = row['chName']
+                  dialogue = row['dialogue']
+                  if '\t' in lineId:
+                      lst = lineId.split('\t')
+                      lineId = lst[0]
+                      chId = lst[1]
+                      mId = lst[2]
+                      chName = lst[3]
+                      dialogue = lst[4]
+                      print(dialogue)
+                  series = pd.Series([lineId, chId, mId, chName, dialogue])
+                  return series
+              </code></pre>
             </div><!-- /.blog-post -->
+
+            <p>
+              One small issue with our methods is that we assumed the gender of the names in dataset by taking the gender that had that name 
+              assigned to it the most. This is obviously not a foolproof method, as a lot of names are unisex in addition to the fact that it
+              is difficult to assume the gender of anyone based solely on their name.
+            </p>
   
             <div class="blog-post">
               <h2 class="blog-post-title">Multinomial Naive Bayes Model</h2>
-  
-              <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p>
-              <blockquote>
-                <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              </blockquote>
-              <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-              <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+              <img src="static/images/confusion1.png" class="img-fluid" alt="Responsive image">
+              <p> In order to feed dialogue and gender into any machine learning algorithm, we had to tokenize and assign numbers to any words.
+                In order to tokenize the gender, we assigned Male to the integer 0 and Female to integer 1. Before converting the dialogues to 
+                numbers, we removed stopwords as well as character names in order to possibly decrease noise. We used the natural language toolkit's
+                TweetTokenize() function to tokenize the dialogue. To remove stopwords we used nltk's stopwords file, as well as the stopwords argument 
+                in scikitlearn's CountVectorizer() function on occasion. We found no difference in accuracy between lemmatizing and stemming
+                words in the dialogue, so we stuck to stemming as it seemed to make more sense for our goals. The lemmatizer used was nltk's 
+                WordNetLemmatizer(), and the stemmer we used was nltk's PorterStemmer(). To vectorize the dialogue, we used scikitlearn's 
+                CountVectorizer() function with max_features=1000, which converted the list of dialogue into a matrix. We did not find that 
+                the increase of max_features nor the use of n-grams contributed anything to our overall accuracy.
+              </p>
+              <p>
+                We attempted to create the model using Gaussian Naive Bayes, Multinomial Naive Bayes, and Random Forest classifiers. Among these
+                classifiers, we found that with a dataset that included male, female, and non-gendered values, the Multinomial Naive Bayes algorithm
+                as well as the Random Forest algorithm gave us the highest accuracy at 63%. However, we found that the Random Forest classifier 
+                had assigned all values to be male, and was achieveing a high accuracy by virtue of the gender bias in the number of lines said 
+                by each gender. Because of this, we chose to use the Multinomial Naive Bayes classifier, which gave the confusion matrix seen above.
+                Shown below is the function used to create the model.
+              </p>
+              <pre><code>
+                def init():
+                  stemmed = pd.read_csv('data/final.csv')
+                  stemmed = stemmed.fillna('')
+                  
+                  dialogue = stemmed.dialogue.to_list()
+                  vec = CountVectorizer(max_features = 1000)
+                  vecf = vec.fit(dialogue)
+                  
+                  vector = vecf.transform(dialogue).toarray()
+                  x = vector
+                  y = stemmed.iloc[:,1].values
+                  x_train, x_test, y_train, y_test = train_test_split(x,y, test_size = 0.1, random_state = 42)
+                  
+                  nb = MultinomialNB()
+                  nb.fit(x_train,y_train)
+                  return nb, vecf
+              </code></pre>
             </div><!-- /.blog-post -->
   
             <div class="blog-post">
-              <h2 class="blog-post-title">New feature</h2>
+              <h2 class="blog-post-title">Refining the Model</h2>
   
-              <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-              <ul>
-                <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li>
-                <li>Donec id elit non mi porta gravida at eget metus.</li>
-                <li>Nulla vitae elit libero, a pharetra augue.</li>
-              </ul>
-              <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur pugit rus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-              <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p>
+              <p>Early on, we realized that having three genders was not contributing positively to our accuracy score. Because of this,
+                we decided to remove all rows with no gender and found that our accuracy with MultinomialNB went up to 69%. However,
+                we also saw that when we gave any string input the model predicted it to be male. We realized that this is likely due to the 
+                skew in number of lines for each male character in addition to the high number of male characters. 
+              </p>
+              <p>We then saw that evening out the number of lines between male and female characters by randomly selecting lines from each 
+                gender, bringing down our accuracy to 55%. However the model seemed more accurate in predicting gender given a new raw input. Our final dialogue gender table had half of its rows female and the remainder was male. Because of this, this is the model we ended up going with. The final function to predict gender based on user input is given below:
+              </p>
+              <pre><code>
+                def predict_gender(t):
+                  nb, vecf = init()
+
+                  character = pd.read_csv('data/fixed_characters.csv')
+                  sw = stopwords.words('english')
+                  names = character.name.str.lower().to_list()
+                  sw.extend(names)
+                  tknzr = TweetTokenizer()
+                  text_tokens = tknzr.tokenize(t)
+                  text_tokens = [split(x) for x in text_tokens]
+                  tokens_without_sw = [word for word in text_tokens if not word in sw]
+                  lemma = nltk.WordNetLemmatizer()
+                  description = [lemma.lemmatize(word) for word in tokens_without_sw]
+                  words = " ".join(description)
+                  words = [words]
+
+                  test_x = vecf.transform(words).toarray()
+                  test_y = nb.predict(test_x)
+                  if test_y[0] == 0:
+                      gender = 'Male'
+                  else:
+                      gender = 'Female'
+                  return gender
+              </code></pre>               
             </div><!-- /.blog-post -->
 
           </div>
