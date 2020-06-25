@@ -1,4 +1,4 @@
-# gender-detector
+# Gender Detector
 ## Predict the gender of a character based on word distribution in dialogue
 A Multinomial Naive Bayes machine learning NLP model to predict the gender of a character based on their lines of text displayed in an interactive website.
 
