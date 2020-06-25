@@ -30,7 +30,7 @@ A Multinomial Naive Bayes machine learning NLP model to predict the gender of a 
     Predict input in webpage
 14. JS file 
 
-###Tuning the model:
+### Tuning the model:
     - Stemming/lemmatization first - Lowered slightly - word clouds better
     - No stemming/lemmatization - No difference
     - Take out non-gendered lines - YES improved to .69
