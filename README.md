@@ -31,11 +31,11 @@ A Multinomial Naive Bayes machine learning NLP model to predict the gender of a 
 14. JS file 
 
 ### Tuning the model:
-    - Stemming/lemmatization first - Lowered slightly - word clouds better
-    - No stemming/lemmatization - No difference
-    - Take out non-gendered lines - YES improved to .69
-    - Randomly select from buckets to make it even - Accuracy went down
-    - Take out apostrophe's
+   - Stemming/lemmatization first - Lowered slightly - word clouds better
+   - No stemming/lemmatization - No difference
+   - Take out non-gendered lines - YES improved to .69
+   - Randomly select from buckets to make it even - Accuracy went down
+   - Take out apostrophe's
 
 ## Team
 - [Alli Kruger](https://github.com/positivelyalli)
