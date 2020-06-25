@@ -39,5 +39,4 @@ A Multinomial Naive Bayes machine learning NLP model to predict the gender of a 
 
 ## Team
 - [Alli Kruger](https://github.com/positivelyalli)
-- [Weiqi Liang](https://github.com/liangweiqi2)
 - [Sowmya Srinivasan](https://github.com/sowmyasrinivasan)
