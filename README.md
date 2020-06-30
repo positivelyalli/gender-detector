@@ -2,7 +2,7 @@
 ## Predict the gender of a character based on word distribution in dialogue
 A Multinomial Naive Bayes machine learning NLP model to predict the gender of a character based on their lines of text displayed in an interactive website. 
 
-    The purpose of this project is to see if a machine learning algorithm can predict a character's gender from the words spoken by the character in the movie scripts from the Kaggle movie script corpus dataset. This project shows the gender bias that is prevalent in scripts and whether or not it is detectable and predictable. By running our machine learning model on the data we can predict the gender of a character based on the dialogue of a character. It could be used to determine how gender biased a script is and what the gender distribution is for a given script.
+   The purpose of this project is to see if a machine learning algorithm can predict a character's gender from the words spoken by the character in the movie scripts from the Kaggle movie script corpus dataset. This project shows the gender bias that is prevalent in scripts and whether or not it is detectable and predictable. By running our machine learning model on the data we can predict the gender of a character based on the dialogue of a character. It could be used to determine how gender biased a script is and what the gender distribution is for a given script.
 
 ## Process
 1. Get Raw Text Dataset - https://www.kaggle.com/Cornell-University/movie-dialog-corpus
