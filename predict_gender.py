@@ -1,6 +1,7 @@
 import pandas as pd
 import nltk
 from nltk.corpus import stopwords
+nltk.download('stopwords')
 from nltk.tokenize import TweetTokenizer
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
@@ -8,6 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction import text 
+
 
 
 def split(x):
