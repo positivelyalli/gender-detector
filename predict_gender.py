@@ -1,7 +1,6 @@
 import pandas as pd
 import nltk
 from nltk.corpus import stopwords
-nltk.download('stopwords')
 from nltk.tokenize import TweetTokenizer
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import CountVectorizer
